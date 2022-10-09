@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sourcegeneration", "sourcegeneration\sourcegeneration.csproj", "{DC63A8F8-64C6-47A4-BFB5-B9ECDE0DB2DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DtoGenerator", "DtoGenerator\DtoGenerator.csproj", "{77D0D7BC-7F42-4BB1-829B-6F9C2DA66AA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DtoGeneratorAttributes", "DtoGeneratorAttributes\DtoGeneratorAttributes.csproj", "{B6D7C8C5-0E82-4231-B57B-D873827E3CD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC63A8F8-64C6-47A4-BFB5-B9ECDE0DB2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC63A8F8-64C6-47A4-BFB5-B9ECDE0DB2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC63A8F8-64C6-47A4-BFB5-B9ECDE0DB2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC63A8F8-64C6-47A4-BFB5-B9ECDE0DB2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D0D7BC-7F42-4BB1-829B-6F9C2DA66AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D0D7BC-7F42-4BB1-829B-6F9C2DA66AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D0D7BC-7F42-4BB1-829B-6F9C2DA66AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D0D7BC-7F42-4BB1-829B-6F9C2DA66AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D7C8C5-0E82-4231-B57B-D873827E3CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D7C8C5-0E82-4231-B57B-D873827E3CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D7C8C5-0E82-4231-B57B-D873827E3CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D7C8C5-0E82-4231-B57B-D873827E3CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
