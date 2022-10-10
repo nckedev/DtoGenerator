@@ -9,4 +9,9 @@ public class GenerateDtoAttribute : Attribute
     {
         Name = name;
     }
+
+    public GenerateDtoAttribute()
+    {
+        Name = "";
+    }
 }

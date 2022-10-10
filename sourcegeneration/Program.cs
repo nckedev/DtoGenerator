@@ -2,8 +2,9 @@
 
 
 using DtoGenerator;
+using GeneratedDtos;
 
-namespace MyNamespace
+namespace sourcegeneration
 {
 
 
@@ -11,16 +12,17 @@ namespace MyNamespace
     {
         public static void Main(string[] args)
         {
-
-            var a = new Test2Dto();
+            var c = new TestDto();
 
         }
     }
 
-    [GenerateDto("etsd")]
+    [GenerateDto]
     public class Test
     {
         public int Count { get; set; }
-
+        
+        [ExcludeFromDto]
+        public string Id { get; set; }
     }
 }

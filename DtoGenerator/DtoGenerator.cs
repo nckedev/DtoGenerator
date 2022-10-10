@@ -54,19 +54,22 @@ public class DtoGenerator : IIncrementalGenerator
 
     private static void GenerateCode(SourceProductionContext context, ImmutableArray<ITypeSymbol?> enumerations)
     {
-        string code = "public partial class " + enumerations.First()?.Name +"Dto  { ";
+        var sb = new StringBuilder();
+        sb.AppendLine("namespace GeneratedDtos {");
+        sb.AppendLine("public partial class " + enumerations.First()?.Name + "Dto  { ");
         foreach (var type in enumerations)
         {
-            code += type.Name + Environment.NewLine; //class name
+            sb.AppendLine(type?.Name + Environment.NewLine);
             foreach (var prop in GetProperties(type))
             {
-                code += prop + Environment.NewLine;
+                sb.AppendLine(prop + Environment.NewLine);
             }
         }
 
-        code += "}";
+        sb.AppendLine("}");
+        sb.AppendLine("}");
 
-        context.AddSource("generatedDto.g.cs", code);
+        context.AddSource("generatedDto.g.cs", sb.ToString());
     }
 
     private static IEnumerable<string> GetProperties(ITypeSymbol type)
@@ -80,7 +83,8 @@ public class DtoGenerator : IIncrementalGenerator
                 return null;
             }
 
-            return SymbolEqualityComparer.Default.Equals(prop.Type, type) ? prop.Name : null;
+            return prop.Name;
+            //return SymbolEqualityComparer.Default.Equals(prop.Type, type) ? prop.Name : null;
         });
         return properties.Where(prop => prop is not null) as IEnumerable<string>;
     }
