@@ -41,67 +41,56 @@ public class DtoGenerator : IIncrementalGenerator
         };
 
 
-    static ITypeSymbol? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
+    static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
     {
         //todo 
         var attributeSyntax = (AttributeSyntax) context.Node;
         if (attributeSyntax.Parent?.Parent is not ClassDeclarationSyntax classDeclaration)
             return null;
 
-        var type = context.SemanticModel.GetDeclaredSymbol(classDeclaration) as ITypeSymbol;
-        return type;
+        return classDeclaration;
+        // var type = context.SemanticModel.GetDeclaredSymbol(classDeclaration) as ITypeSymbol;
+        // return type;
     }
 
-    private static void GenerateCode(SourceProductionContext context, ImmutableArray<ITypeSymbol?> enumerations)
+    private static void GenerateCode(SourceProductionContext context,
+        ImmutableArray<ClassDeclarationSyntax?> enumerations)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("namespace GeneratedDtos {");
-        sb.AppendLine("public partial class " + enumerations.First()?.Name + "Dto  { ");
+        sb.AppendLine("namespace GeneratedDtos");
+
+        sb.AppendLine("{");
+        sb.AppendLine("\tpublic partial class " + enumerations.First()?.Identifier.Text + "Dto");
+        sb.AppendLine("\t{");
         foreach (var type in enumerations)
         {
-            sb.AppendLine(type?.Name + Environment.NewLine);
             foreach (var prop in GetProperties(type))
             {
-                sb.AppendLine(prop + Environment.NewLine);
+                sb.AppendLine("\t\t" + prop + Environment.NewLine);
+            }
+
+            sb.AppendLine("\t}");
+            sb.AppendLine("}");
+
+            context.AddSource(type.Identifier.Text + "Dto.g.cs", sb.ToString());
+        }
+    }
+
+    private static IEnumerable<string> GetProperties(ClassDeclarationSyntax classDeclarationSyntax)
+    {
+        List<string> props = new List<string>();
+        foreach (var child in classDeclarationSyntax.ChildNodes())
+        {
+            //todo 
+            if (child is PropertyDeclarationSyntax prop)
+            {
+                if (!prop.ToString().Contains("ExcludeFromDto") && !prop.ToString().StartsWith("private"))
+                {
+                    props.Add(prop.ToString());
+                }
             }
         }
 
-        sb.AppendLine("}");
-        sb.AppendLine("}");
-
-        context.AddSource("generatedDto.g.cs", sb.ToString());
-    }
-
-    private static IEnumerable<string> GetProperties(ITypeSymbol type)
-    {
-        var properties = type.GetMembers().Select(s =>
-        {
-            if (s.DeclaredAccessibility != Accessibility.Public
-                || s.DeclaredAccessibility != Accessibility.Protected
-                || s is not IPropertySymbol prop)
-            {
-                return null;
-            }
-
-            return prop.Name;
-            //return SymbolEqualityComparer.Default.Equals(prop.Type, type) ? prop.Name : null;
-        });
-        return properties.Where(prop => prop is not null) as IEnumerable<string>;
-    }
-}
-
-internal static class SourceGeneratorExtensions
-{
-    internal static string BuildDtoProperty(
-        this PropertyDeclarationSyntax pds, Compilation compilation)
-    {
-        // get the symbol for this property from the semantic model
-        var symbol = compilation
-            .GetSemanticModel(pds.SyntaxTree)
-            .GetDeclaredSymbol(pds);
-
-        var property = (symbol as IPropertySymbol);
-        // use the same type and name for the DTO properties as on the entity
-        return $"public {property?.Type.Name} {property?.Name} {{get; set;}}";
+        return props;
     }
 }
